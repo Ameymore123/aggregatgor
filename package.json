@@ -1,0 +1,9 @@
+{
+    "name": "feed-aggregate",
+    "version": "1.0.0",
+    "description": "FeedFlow landing page background workers",
+    "main": "index.html",
+    "dependencies": {
+        "pg": "^8.11.3"
+    }
+}
