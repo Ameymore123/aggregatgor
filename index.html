@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TrustFeed — Auto-Sync Instagram Social Proof</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Finlandica+Text:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: "Finlandica Text", sans-serif;
+  background:#fff; color:#111; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+img { max-width:100%; display:block; }
+ 
+/* ========== CSS CUSTOM PROPERTIES ========== */
+:root {
+  --section-pad-y: clamp(60px, 8vw, 100px);
+  --section-pad-x: clamp(20px, 6%, 80px);
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+ 
+/* ========== GLOBAL SECTION FRAMEWORK ========== */
+.light-section { padding: var(--section-pad-y) var(--section-pad-x); background:#fff; }
+.dark-section  { padding: var(--section-pad-y) var(--section-pad-x); background:#f6f8fb; }
+.section-title {
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  text-align:center; font-weight:800;
+  margin-bottom:14px; letter-spacing:-1px;
+  line-height:1.1;
+}
+.section-sub {
+  text-align:center; color:#666;
+  max-width:680px; margin:0 auto 40px;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  line-height:1.6;
+}
+
+/* Navigation Overhaul */
+nav{
+position:fixed;top:18px;left:50%;transform:translateX(-50%);
+width:min(92%,1200px);display:flex;justify-content:space-between;
+align-items:center;padding:16px 28px;z-index:1000;
+transition:.35s ease;border-radius:22px;
+}
+nav.scrolled{
+background:rgba(0, 0, 0, 0.785);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:0 8px 32px rgba(0,0,0,.25);
+margin-top: -10px;
+}
+.logo{font-size:1.4rem;font-weight:800;color:#fff}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{text-decoration:none;color:#fff;font-weight:500}
+.nav-btn{
+padding:12px 20px;border-radius:999px;border:none;
+background:#fff;color:#111;font-weight:700;cursor:pointer
+}
+
+/* ========== HERO ========== */
+.hero {
+  min-height:100svh; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  padding: clamp(120px,15vw,160px) clamp(20px,5vw,60px) clamp(60px,8vw,100px);
+  color:#fff;
+}
+.slide {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  opacity:0; transition:opacity 1.5s ease;
+}
+.slide.active { opacity:1; }
+.overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.65), rgba(0,0,0,.55));
+}
+.hero-content { position:relative; z-index:2; max-width:1040px; width:100%; }
+.badge {
+  display:inline-flex; padding:9px 16px;
+  background:rgba(255,255,255,.12); backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.15); border-radius:var(--radius-pill);
+  margin-bottom:20px; font-size:clamp(.75rem,.9vw,.85rem); font-weight:300;
+}
+h1 {
+  font-size:clamp(1.5rem, 4.5vw, 3.5rem);
+  line-height:1.08; font-weight:400;
+  letter-spacing:clamp(-1px,-0.04em,-2px);
+  margin-bottom:20px;
+}
+.sub {
+  font-size:clamp(.9rem,1.5vw,1.3rem);
+  max-width:780px; margin:0 auto; opacity:.92; line-height:1.6;
+}
+.cta-wrap {
+  display:flex; justify-content:center; gap:14px;
+  margin-top:32px; flex-wrap:wrap;
+}
+.primary, .secondary {
+  padding:clamp(12px,2vw,16px) clamp(18px,2.5vw,28px);
+  border-radius:var(--radius-pill); font-weight:700;
+  text-decoration:none; transition:.3s;
+  font-size:clamp(.85rem,1.3vw,1rem);
+  text-align:center;
+}
+.primary {
+  background:#fff; color:#111;
+  box-shadow:0 12px 40px rgba(255,255,255,.25);
+}
+.primary:hover { transform:translateY(-3px); }
+.secondary {
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1); backdrop-filter:blur(14px); color:#fff;
+}
+.secondary:hover { background:rgba(255,255,255,.2); }
+.stats {
+  display:flex; justify-content:center; gap:clamp(20px,4vw,40px);
+  margin-top:50px; flex-wrap:wrap;
+}
+.stat strong { display:block; font-size:clamp(1.2rem,2vw,1.8rem); color:#fff; }
+.stat { opacity:.9; font-size:clamp(.8rem,1.1vw,.95rem); }
+
+/* Visual Aggregator Sandbox / Mock Demo Section */
+.sandbox-flow {
+max-width: 1260px; margin: 5px auto 0;
+display: flex; align-items: center; justify-content: space-between;
+position: relative; flex-wrap: wrap; gap: 5px;
+}
+.sandbox-card {
+background: #fff; border: 1px solid #eef1f6; padding: 24px;
+border-radius: 24px; width: min(100%, 280px); margin: 0 auto;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.386); text-align: left;
+width: 400px;
+}
+.sandbox-card h4 { font-size: 1.1rem; margin-left: 50px; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px;}
+.insta-header { width: 32px; height: 32px; background: #ddd; border-radius: 50%; display: inline-block; }
+.sandbox-img { width: 100%; aspect-ratio: 1; background: #f0f0f0; border-radius: 12px; margin-bottom: 12px; object-fit: cover; }
+.sandbox-arrow { font-size: 2rem; color: #111; font-weight: 800; align-self: center; margin: 0 auto; }
+
+
+
+
+/* Minimalist & Professional SaaS Engine Styles */
+.trustfeed-core {
+    background: #ffffff !important; /* Elegant true black */
+    color: #111111 !important;
+    padding: 32px 24px;
+    border-radius: 24px;
+    width: 340px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+    text-align: center !important;
+    border: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.engine-shield {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+.trustfeed-core h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 8px 0 !important; /* Clears any layout inheritance */
+    color: #111;
+    letter-spacing: -0.5px;
+}
+.engine-tagline {
+    font-size: 0.85rem;
+    color: #616161;
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+.sync-status {
+    background: rgba(126, 126, 126, 0.1);
+    border: 1px solid rgba(126, 126, 126, 0.1);
+    color: #5b5b5b;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+}
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #5b5b5b;
+    border-radius: 50%;
+    animation: simplePulse 1.8s infinite;
+}
+
+@keyframes simplePulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+
+
+
+
+
+/* Premium Storefront Mock Website Styles */
+.mock-window {
+    background: #ffffff;
+    border: 1px solid #eef1f6;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+}
+.window-header {
+    background: #f1f5f9;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.window-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+}
+.mock-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+}
+.mock-nav-logo {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+.mock-nav-links {
+    display: flex;
+    gap: 10px;
+    font-size: 0.6rem;
+    color: #64748b;
+    font-weight: 500;
+}
+.window-body {
+    padding: 16px;
+    background: #ffffff;
+}
+.mock-product-hero {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+.mock-web-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+.mock-web-text {
+    font-size: 0.65rem;
+    color: #626262;
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+}
+.widget-row { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 8px; 
+}
+.widget-box { 
+    aspect-ratio: 1; 
+    background: #f6f8fb; 
+    border-radius: 8px; 
+    position: relative; 
+    overflow: hidden; 
+    border: 1px solid rgba(0,0,0,0.02);
+}
+.widget-box img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+
+
+
+
+
+/* Why Websites Fail Architecture */
+.fail-split {
+display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.fail-left h3 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+.fail-left p { color: #555; line-height: 1.6; margin-bottom: 20px; font-size: 1.05rem; }
+.fail-grid { display: grid; gap: 16px; }
+.fail-item {
+display: flex; align-items: center; gap: 14px; background: #fff;
+padding: 16px 20px; border-radius: 16px; border: 1px solid #eef1f6;
+font-weight: 600; color: #333;
+}
+.fail-item span { color: #ff4a4a; font-size: 1.2rem; }
+.fail-right { background: #111; color: #fff; padding: 40px; border-radius: 32px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.473); }
+.fail-right h4 { font-size: 1.5rem; margin-bottom: 16px; font-weight: 700; color: #fff; }
+.fail-right p { opacity: 0.8; line-height: 1.6; margin-bottom: 24px; }
+.success-list { display: grid; gap: 12px; }
+.success-item { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.success-item span { color: #00c853; font-size: 1.2rem; }
+
+/* ==========================================
+   VISUAL SPLIT-SCREEN LAYOUT MOCKUP OVERHAUL
+   ========================================== */
+/* ==========================================
+   HIGH-FIDELITY BROWSER SYSTEM MOCKUP OVERHAUL
+   ========================================== */
+.visual-split-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1140px;
+    margin: 50px auto 0;
+}
+
+.pane-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Realistic Operating System Window Panel */
+.pane-window-mock {
+    background: #ffffff;
+    border: 1px solid #d4d4d8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.311);
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.pane-wrapper.pos-side .pane-window-mock {
+    border: 1px solid #d4d4d8;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.311);
+}
+.pane-window-mock:hover {
+    transform: translateY(-4px);
+}
+
+/* Chrome/Safari Style Header Bar Frame */
+/* ==========================================
+   UPDATED WINDOW HEADER FLEX ALIGNMENTS
+   ========================================== */
+.pane-browser-chrome-bar {
+    background: #f4f4f5;
+    border-bottom: 1px solid #e4e4e7;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chrome-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pushes items to opposite edges */
+    position: relative;
+    width: 100%;
+}
+
+/* Window Control Buttons shifted to the absolute right side */
+.pane-dots { 
+    display: flex; 
+    gap: 6px; 
+    order: 2; /* Forces the dots to render after the address bar */
+}
+.pane-dot { width: 9px; height: 9px; border-radius: 50%; }
+.neg-side .pane-dot { background: #ef4444; }
+.pos-side .pane-dot { background: #22c55e; }
+
+/* Browser Address URL Input Element box left-aligned */
+.chrome-address-bar {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 6px;
+    font-size: 0.89rem;
+    font-family: monospace;
+    color: #71717a;
+    padding: 6px 12px;
+    width: 65%;
+    margin: 0; /* Clears the centered auto-margins */
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+    order: 1; /* Forces the address bar to render first on the left */
+}
+
+
+.chrome-address-bar span.protocol { color: #a1a1aa; }
+.pos-side .chrome-address-bar span.secure { color: #16a34a; font-weight: 600; }
+
+/* Status Text Info Row */
+.chrome-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 4px 0;
+}
+.browser-tab-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #52525b;
+}
+.pane-status-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: -7px;
+}
+.neg-side .pane-status-badge { background: #fee2e2; color: #ef4444; }
+.pos-side .pane-status-badge { background: #dcfce7; color: #15803d; }
+
+/* Website Mock Content Canvas */
+.pane-body-canvas {
+    padding: 28px;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+/* Standard Wireframe Content Layout Blocks */
+.mock-wire-title {
+    width: 160px; height: 16px;
+    background: #e4e4e7; border-radius: 4px;
+    margin-bottom: 8px;
+}
+.mock-wire-text {
+    width: 85%; height: 8px;
+    background: #e2e2e2; border-radius: 2px;
+    margin-bottom: 28px;
+}
+
+/* Left State: Empty Error Layout Visuals */
+.empty-state-box {
+    border: 2px dashed #e4e4e7;
+    background: #e7e5e5bb;
+    border-radius: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    padding-bottom: 100px;
+    padding-top: 90px;
+
+}
+.warning-circle {
+    width: 48px; height: 48px;
+    background: #ffffff; color: #000000;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 700; margin-bottom: 16px;
+    border: 1px solid #6d6d6d;
+}
+.empty-state-box h4 { font-size: 1rem; font-weight: 700; color: #18181b; margin-bottom: 6px; }
+.empty-state-box p { font-size: 0.85rem; color: #71717a; max-width: 260px; line-height: 1.5; }
+
+/* Right State: Live Embedded Gallery Component Visuals */
+.live-gallery-embed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    flex: 1;
+}
+.gallery-tile {
+    aspect-ratio: 1;
+    background: #f4f4f5;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.04);
+}
+.gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
+.tile-hover-tag {
+    position: absolute; bottom: 8px; left: 8px;
+    background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px);
+    color: #fff; font-size: 0.58rem; font-weight: 600;
+    padding: 3px 8px; border-radius: 4px;
+    letter-spacing: 0.3px;
+}
+
+/* Descriptive Callout Labels Outside Panels */
+/* Vector Icon Custom Positioning Utilities */
+.pane-bullet-desc {
+    background: #ffffff;
+    border: 1px solid #dbdbdb;
+    padding: 18px 22px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 550;
+    color: #27272a;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.pane-bullet-desc svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.warning-circle svg {
+    width: 22px;
+    height: 22px;
+}
+
+@media(max-width: 820px) {
+    .visual-split-container { grid-template-columns: 1fr; gap: 40px; }
+    .chrome-address-bar { width: 80%; }
+}
+
+
+
+
+/* ==========================================
+   HIGH-FIDELITY IMPLEMENTATION BLUEPRINT STYLES
+   ========================================== */
+.steps-pipeline { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 24px; 
+    max-width: 1200px;
+    margin: 50px auto 0; 
+}
+
+.step-node { 
+    background: #ffffff; 
+    padding: 36px 28px; 
+    border-radius: 16px; 
+    border: 1px solid #e4e4e7; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.step-node:hover {
+    transform: translateY(-4px);
+    border-color: #a1a1aa;
+}
+
+/* Replaced plain circle with custom minimalist vector icon box */
+.step-icon-wrapper { 
+    width: 44px; 
+    height: 44px; 
+    background: #f4f4f5; 
+    color: #18181b; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 10px; 
+    margin-bottom: 24px; 
+    border: 1px solid #e4e4e7;
+}
+
+.step-icon-wrapper svg {
+    width: 22px;
+    height: 22px;
+}
+
+.step-node h4 { 
+    font-size: 1.15rem; 
+    font-weight: 700; 
+    color: #18181b;
+    margin-bottom: 12px; 
+    letter-spacing: -0.3px;
+}
+
+.step-node p { 
+    color: #71717a; 
+    font-size: 0.92rem; 
+    line-height: 1.5; 
+    font-weight: 400;
+}
+
+/* Premium Dynamic Live Injected Showcase Matrix */
+.mock-feed-preview { 
+    max-width: 1200px; 
+    margin: 48px auto 0; 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px; 
+}
+
+.preview-box { 
+    aspect-ratio: 1; 
+    background: #fafafa; 
+    border-radius: 12px; 
+    position: relative; 
+    overflow: hidden; 
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.02); 
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.preview-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.preview-box img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.preview-box .tag-pill { 
+    position: absolute; 
+    bottom: 12px; 
+    left: 12px; 
+    background: rgba(0, 0, 0, 0.75); 
+    color: #ffffff; 
+    backdrop-filter: blur(4px); 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 0.7rem; 
+    font-weight: 600; 
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+@media(max-width: 820px) {
+    .mock-feed-preview { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+
+
+
+
+
+
+
+/* Multi-Industry Matrix Elements */
+/* Premium Multi-Industry Overlay Grid */
+.industry-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 24px; 
+    max-width: 1100px; 
+    margin: 40px auto 0; 
+}
+.industry-card { 
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 50px 32px; 
+    border-radius: 16px; 
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    min-height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 350px;
+    height: 250px;
+}
+/* Smooth hover lift and deep glowing accent */
+.industry-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0);
+}
+/* The secret sauce: Dark linear layer overlay ensuring 100% text readability */
+.industry-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.782) 100%);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+.industry-card:hover::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.415) 20%, rgba(0, 0, 0, 0.393) 100%);
+}
+/* Bringing card copy elements over the gradient canvas layer */
+.industry-card h3, .industry-card p {
+    position: relative;
+    z-index: 2;
+}
+.industry-card h3 { 
+    font-size: 1.4rem; 
+    margin-bottom: 10px; 
+    font-weight: 800; 
+    color: #ffffff; 
+    letter-spacing: -0.5px;
+}
+.industry-card p { 
+    color: #d4d4d8; 
+    font-size: 0.92rem; 
+    line-height: 1.5; 
+    font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Conversion Engine & Scarcity Wrap Layouts */
+.form-section { background:#fff; padding:100px 6% }
+.form-wrap { max-width:680px; margin:auto; background:#f6f8fb; padding:50px; border-radius:32px; border:1px solid #eef1f6; box-shadow:0 18px 60px rgba(0,0,0,.04) }
+.scarcity-banner {
+background: #fff8e1; border: 1px dashed #ffe082; padding: 24px; border-radius: 20px;
+margin-bottom: 32px; display: flex; gap: 16px; align-items: flex-start;
+}
+.scarcity-banner .icon { font-size: 1.5rem; }
+.scarcity-text h4 { font-size: 1.05rem; font-weight: 800; color: #b78103; margin-bottom: 4px; }
+.scarcity-text p { color: #755302; font-size: 0.92rem; line-height: 1.5; }
+
+form { display:grid; gap:16px }
+input, textarea { padding:18px; border-radius:16px; border:1px solid #ddd; font-family:inherit; font-size:0.95rem; background:#fff; transition:border-color 0.2s; }
+input:focus, textarea:focus { outline:none; border-color:#111; }
+.submit-btn { padding:18px; border:none; border-radius:16px; background:#111; color:#fff; font-weight:700; cursor:pointer; font-size:1rem; transition:background 0.2s; }
+.submit-btn:hover { background:#222; }
+footer { padding:40px; text-align:center; background:#111; color:#fff; font-size:0.95rem; }
+
+@media(max-width:900px){
+.mock-feed-preview { grid-template-columns: repeat(2, 1fr); }
+.fail-split, .comparison-matrix { grid-template-columns: 1fr; gap: 40px; }
+.sandbox-flow { flex-direction: column; }
+.sandbox-arrow { transform: rotate(90deg); margin: 10px auto; }
+}
+@media(max-width:768px){
+.nav-links a { display:none; }
+.logo { font-size:1.2rem; }
+.form-wrap { padding:30px 20px; }
+.steps-pipeline { grid-template-columns:1fr; }
+}
+
+
+
+
+
+/* ===== TABLET: 601px – 820px ===== */
+@media (max-width: 820px) {
+  .fail-split             { grid-template-columns: 1fr; gap: 36px; }
+  .visual-split-container { grid-template-columns: 1fr; gap: 36px; }
+  .mock-feed-preview      { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .chrome-address-bar     { width: 75%; }
+  .industry-grid          { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== MOBILE: ≤ 700px ===== */
+@media (max-width: 700px) {
+  /* Sandbox flow stacks vertically */
+  .sandbox-flow  { flex-direction: column; align-items: center; }
+  .sandbox-card  { max-width: 100%; width: 100%; min-width: unset; }
+  .sandbox-arrow { transform: rotate(90deg); margin: 6px auto; }
+}
+
+/* ===== MOBILE: ≤ 600px ===== */
+@media (max-width: 600px) {
+  /* Hide nav text links */
+  .nav-links a { display: none; }
+
+  /* Industry grid single column */
+  .industry-grid { grid-template-columns: 1fr; }
+
+  /* Browser mock address bar shrink */
+  .chrome-address-bar  { width: 70%; font-size: 0.6rem; }
+  .browser-tab-title   { display: none; }
+  .pane-status-badge   { font-size: 0.55rem; }
+
+  /* Bullet desc smaller icon */
+  .pane-bullet-desc svg { width: 28px; height: 28px; }
+  .pane-bullet-desc     { font-size: 0.88rem; padding: 14px 16px; }
+
+  /* Form wrap tighter padding */
+  .form-wrap { padding: 24px 18px; border-radius: 20px; }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .slide     { transition: none; }
+  .pulse-dot { animation: none; opacity: 0.8; }
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+
+<nav id="navbar">
+<div class="logo">TrustFeed</div>
+<div class="nav-links">
+<a href="#features">Features</a>
+<a href="#demo">Book Demo</a>
+<button class="nav-btn" onclick="document.getElementById('demo').scrollIntoView()">Book Demo</button>
+</div>
+</nav>
+
+<section class="hero">
+<div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2000&auto=format&fit=crop');"></div>
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2000&auto=format&fit=crop');"></div>
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000&auto=format&fit=crop');"></div>
+<div class="overlay"></div>
+
+<div class="hero-content">
+<div class="badge">Still uploading customer photos manually?</div>
+<h1>Turn Every Instagram Post, Customer Tag and Social Mention into Website Content Automatically.</h1>
+<p class="sub">
+Stop letting potential buyers leave your checkout loops. Convert organic user interactions and community hashtag grids into automated website assets instantly.
+</p>
+
+<div class="cta-wrap">
+<a class="primary" href="#demo">Book Demo (Early Access)</a>
+<a class="secondary" href="#mock-demo">See TrustFeed In Action</a>
+</div>
+
+<div class="stats">
+<div class="stat"><strong>Auto</strong>Sync Content</div>
+<div class="stat"><strong>Real</strong>Customer Proof</div>
+<div class="stat"><strong>Premium</strong>Website Experience</div>
+</div>
+</div>
+</section>
+
+<!-- Section 1: Why Most Business Websites Fail To Build Trust -->
+<section class="light-section" id="fail-analysis">
+<div class="fail-split">
+<div class="fail-left">
+<h3>Why Most Business Websites Fail To Build Trust</h3>
+<p>Visitors land on your website ready to buy. But instead of seeing concrete proof that real people love your brand, they run into a cold, static wall.</p>
+<div class="fail-grid">
+<div class="fail-item"><span>❌</span> Static product images</div>
+<div class="fail-item"><span>❌</span> Generic testimonials</div>
+<div class="fail-item"><span>❌</span> Outdated content</div>
+<div class="fail-item"><span>❌</span> No customer activity</div>
+</div>
+</div>
+<div class="fail-right">
+<h4>TrustFeed Changes The Entire Game</h4>
+<p>TrustFeed automatically turns your Instagram content, customer posts and social proof into beautiful website galleries that update themselves in real time.</p>
+<div class="success-list">
+<div class="success-item"><span>✔</span> Real customers visible instantly</div>
+<div class="success-item"><span>✔</span> Real engagement loops running 24/7</div>
+<div class="success-item"><span>✔</span> Real experiences displayed at checkout</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 2: Visual Pipeline Sandbox / Product Mockup Section -->
+<section class="dark-section" id="mock-demo">
+<h2 class="section-title">See TrustFeed In Action</h2>
+<p class="section-sub">Witness the automatic end-to-end data transfer from live application feeds directly into clean UI elements.</p>
+
+<div class="sandbox-flow">
+<div class="sandbox-card">
+<h4 style="margin-left: -1.5px;"><i class="fa-solid fa-circle-user" style="color: rgb(228, 228, 228); font-size: 35px; margin-left: 2px;"></i> @customer_post <button style="margin-left: 55px; padding-left: 10px; padding-right: 10px; height: 25px; width: 70px; border-radius: 6px; border: none;">Follow</button> <i class="fa-solid fa-ellipsis-vertical" style="color: rgb(0, 0, 0); margin-left: 25px;"></i></h4>
+<img class="sandbox-img" src="static/red dress.jpg" alt="Instagram Post Source">
+<p style="font-size:0.85rem; color:#666;"><i class="fa fa-heart" style="font-size:28px;color:red; margin-left: 5px;"></i> <i class="fa-regular fa-comment" style="color: rgb(0, 0, 0); font-size: 25px; margin-left: 12px; margin-bottom: 3px;"></i> <i class="fa-solid fa-retweet" style="color: rgb(0, 0, 0); rotate: 90deg; font-size: 25px; margin-left: 7px;"></i> <i class="material-icons" style="font-size:25px; rotate: -25deg; margin-left: 12px; color: #111111;">send</i> <br><br> "Obsessed with my new kicks! 🔥 #brandlaunch"</p>
+</div>
+
+<div class="sandbox-arrow">➔</div>
+
+<div class="sandbox-card trustfeed-core">
+    <span class="engine-shield">🛡️</span>
+    
+    <h4>TrustFeed Engine</h4>
+    <p class="engine-tagline">Automatically filtering out spam, optimization layouts, and syncing your proof instantly.</p>
+    
+    <div class="sync-status">
+        <span class="pulse-dot"></span>
+        <span>AUTOMATED LIVE SYNC</span>
+    </div>
+</div>
+
+<div class="sandbox-arrow">➔</div>
+
+<div class="sandbox-card">
+<h4>🌐 Live Storefront Widget</h4>
+
+<div class="mock-window">
+    <div class="window-header">
+        <div class="window-dot"></div>
+        <div class="window-dot"></div>
+        <div class="window-dot"></div>
+    </div>
+    
+    <div class="mock-nav">
+        <div class="mock-nav-logo">👟 KICKSTUDIO</div>
+        <div class="mock-nav-links">
+            <span>Shop</span>
+            <span>New</span>
+            <span>🛒 (0)</span>
+        </div>
+    </div>
+    
+    <div class="window-body">
+        <div class="mock-product-hero">
+            <div class="mock-web-title">Our Community Looks</div>
+            <div class="mock-web-text">Real style validation streamed directly from our buyers:</div>
+        </div>
+        
+        <div class="widget-row">
+            <div class="widget-box"><img src="static/red dress.jpg" alt="Embedded Post"></div>
+            <div class="widget-box"><img src="static/hill 1.jpg" alt="Embedded Post"></div>
+            <div class="widget-box"><img src="static/bag.jpg" alt="Embedded Post"></div>
+            <div class="widget-box"><img src="static/dress2.jpg" alt="Embedded Post"></div>
+        </div>
+    </div>
+</div>
+
+<p style="font-size:0.75rem; color:#333; font-weight:700; text-align:center">Embedded Asset Updated Automatically</p>
+</div>
+</div>
+</section>
+
+<!-- Section 3: Before vs After (Transformational Proof) -->
+<!-- Section 3: Before vs After (Left-Aligned Layout Browser Canvas Overhaul) -->
+<section class="light-section">
+<h2 class="section-title">The Value Clear As Day</h2>
+<p class="section-sub">People buy transformations, not rigid paragraphs of text. Look at how your storefront asset modifies instantly after dropping our single system tag lines.</p>
+
+<div class="visual-split-container">
+    
+    <!-- LEFT SIDE PANELS: WITHOUT TRUSTFEED -->
+    <div class="pane-wrapper neg-side">
+        <!-- Browser Window Mock -->
+        <div class="pane-window-mock" style="height: 521px;">
+            <div class="pane-browser-chrome-bar">
+                <div class="chrome-top-row">
+                    <!-- Address Bar (Left) -->
+                    <div class="chrome-address-bar">
+                        <span class="protocol">https://</span>your-storefront.com/checkout
+                    </div>
+                    <!-- Window Controls (Right) -->
+                    <div class="pane-dots">
+                        <span class="pane-dot"></span>
+                        <span class="pane-dot"></span>
+                        <span class="pane-dot"></span>
+                    </div>
+                </div>
+                <div class="chrome-meta-row">
+                    <div class="browser-tab-title">Checkout Domain — Inactive Proofs</div>
+                    <div class="pane-status-badge">Static Experience</div>
+                </div>
+            </div>
+
+            <!-- Content Canvas -->
+            <div class="pane-body-canvas">
+                <div class="mock-wire-title"></div>
+                <div class="mock-wire-text"></div>
+                
+                <div class="empty-state-box">
+                    <div class="warning-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+    <!-- Question mark core glyph remains centered -->
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M12 17.25h.008v.008H12v-.008Z" />
+    <!-- Expanded outer bounding ring layer -->
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21Z" />
+</svg>
+                    </div>
+                    <h4>No Real-Time Proof Available</h4>
+                    <p>Visitors see zero social activity loops or community verification context maps.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pane-bullet-desc">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ef4444">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div><strong>Skeptical Dropouts:</strong> Active buyers abandon checkout screens to look up your handles on social apps, where they get distracted by competing ads.</div>
+        </div>
+        <div class="pane-bullet-desc">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ef4444">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+            <div><strong>Wasted Visual ROI:</strong> Organic user tags, lookbook reels, and high-converting customer photo interactions stay locked inside Instagram feeds.</div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE PANELS: WITH TRUSTFEED -->
+    <div class="pane-wrapper pos-side">
+        <!-- Browser Window Mock -->
+        <div class="pane-window-mock">
+            <div class="pane-browser-chrome-bar">
+                <div class="chrome-top-row">
+                    <!-- Address Bar (Left) -->
+                    <div class="chrome-address-bar">
+                        <span class="secure">https://</span>your-storefront.com/checkout
+                    </div>
+                    <!-- Window Controls (Right) -->
+                    <div class="pane-dots">
+                        <span class="pane-dot"></span>
+                        <span class="pane-dot"></span>
+                        <span class="pane-dot"></span>
+                    </div>
+                </div>
+                <div class="chrome-meta-row">
+                    <div class="browser-tab-title">Checkout Domain — Connected Content</div>
+                    <div class="pane-status-badge">Automated Live Sync</div>
+                </div>
+            </div>
+
+            <!-- Content Canvas -->
+            <div class="pane-body-canvas">
+                <div class="mock-wire-title"></div>
+                <div class="mock-wire-text"></div>
+                
+                <div class="live-gallery-embed">
+                    <div class="gallery-tile">
+                        <img src="static/red dress.jpg" alt="Buyer Proof 1">
+                        <div class="tile-hover-tag">#customer_look</div>
+                    </div>
+                    <div class="gallery-tile">
+                        <img src="static/hill 2.jpg" alt="Buyer Proof 2">
+                        <div class="tile-hover-tag">#verified_buyer</div>
+                    </div>
+                    <div class="gallery-tile">
+                        <img src="static/bag.jpg" alt="Buyer Proof 3">
+                        <div class="tile-hover-tag">#community_pic</div>
+                    </div>
+                    <div class="gallery-tile"><img src="static/hill 1.jpg" alt="Live Sync Asset 1"><div class="tile-hover-tag">#live_stream</div></div>
+                    <div class="gallery-tile"><img src="static/dress2.jpg" alt="Live Sync Asset 2"><div class="tile-hover-tag">#tagged_reels</div></div>
+                    <div class="gallery-tile"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=300&auto=format&fit=crop" alt="Live Sync Asset 3"><div class="tile-hover-tag">#our_style</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pane-bullet-desc">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#22c55e">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <div><strong>Frictionless Checkouts:</strong> Social verification is served directly at the checkout point, killing conversion anxiety and driving immediate sales.</div>
+        </div>
+        <div class="pane-bullet-desc">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#22c55e">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+            <div><strong>Zero Code Maintenance:</strong> Background tasks populate content arrays and cache image configurations smoothly around the clock without developer resources.</div>
+        </div>
+    </div>
+
+</div>
+</section>
+
+
+<!-- Section 4: High-Fidelity Pipeline Execution Map -->
+<section class="dark-section" id="how-it-works" style="background: #fafafa;">
+<h2 class="section-title">The Implementation Blueprint</h2>
+<p class="section-sub">From account validation to live rendering on top of your current stack inside five minutes flat.</p>
+
+<div class="steps-pipeline">
+    
+    <!-- Step 1 Node -->
+    <div class="step-node">
+        <div class="step-icon-wrapper">
+            <!-- Global Account Connection Network SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+            </svg>
+        </div>
+        <h4>1. Connect Account</h4>
+        <p>Securely authorize your business account connections or target hashtags inside our dashboard in seconds.</p>
+    </div>
+
+    <!-- Step 2 Node -->
+    <div class="step-node">
+        <div class="step-icon-wrapper">
+            <!-- Filter Optimization Controls SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 1 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 12h11.25" />
+            </svg>
+        </div>
+        <h4>2. Curate Feed</h4>
+        <p>Filter exactly what streams live. Blend your official timeline grid, user mentions, or community tag streams effortlessly.</p>
+    </div>
+
+    <!-- Step 3 Node -->
+    <div class="step-node">
+        <div class="step-icon-wrapper">
+            <!-- Quick Embedding Code Script Box SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+            </svg>
+        </div>
+        <h4>3. Embed Snippet</h4>
+        <p>Copy our optimized, light snippet of script code into your Shopify, WordPress, Webflow, or custom developer stack.</p>
+    </div>
+
+    <!-- Step 4 Node -->
+    <div class="step-node">
+        <div class="step-icon-wrapper">
+            <!-- Performance Multiplier Target SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+            </svg>
+        </div>
+        <h4>4. Scale Conversion</h4>
+        <p>Visitors see live, validated user-generated content right at the point of transaction, driving higher inquiries.</p>
+    </div>
+</div>
+
+<!-- Integrated Live Output Canvas Element -->
+<div class="mock-feed-preview">
+    <div class="preview-box">
+        <img src="static/wallet.jpg" alt="Sneaker Review Card">
+        <div class="tag-pill">#customer_proof</div>
+    </div>
+    <div class="preview-box">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop" alt="Watch Review Image">
+        <div class="tag-pill">#our_community</div>
+    </div>
+    <div class="preview-box">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop" alt="Audio Review Asset">
+        <div class="tag-pill">#verified_buyer</div>
+    </div>
+    <div class="preview-box">
+        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=600&auto=format&fit=crop" alt="Glasses Review Snippet">
+        <div class="tag-pill">#tagged_reels</div>
+    </div>
+</div>
+</section>
+
+<!-- Section 5: Multi-Industry Deployment Layout -->
+<section class="light-section" id="industries">
+<h2 class="section-title">Engineered For Every Digital Sector</h2>
+<p class="section-sub">Whether selling digital packages or serving food locally, social contextual verification drives engagement.</p>
+
+<div class="industry-grid">
+    <!-- Ecommerce Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600&auto=format&fit=crop');">
+        <h3>Ecommerce</h3>
+        <p>Show customer product photos right inside catalog product cards to reduce dropped carts.</p>
+    </div>
+
+    <!-- Restaurants Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600&auto=format&fit=crop');">
+        <h3>Restaurants</h3>
+        <p>Stream live customer dining experiences and aesthetic food plating layouts automatically.</p>
+    </div>
+
+    <!-- Hotels Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop');">
+        <h3>Hotels</h3>
+        <p>Display real, unedited guest moments around your resort lounges to eliminate destination skepticism.</p>
+    </div>
+
+    <!-- Creators Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=600&auto=format&fit=crop');">
+        <h3>Creators</h3>
+        <p>Bundle your social growth proof points right next to your informational course signup modules.</p>
+    </div>
+
+    <!-- Agencies Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=600&auto=format&fit=crop');">
+        <h3>Agencies</h3>
+        <p>Collate direct visual client results and campaign performance dashboards into sleek case study reviews.</p>
+    </div>
+
+    <!-- Events Card -->
+    <div class="industry-card" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=600&auto=format&fit=crop');">
+        <h3>Events</h3>
+        <p>Aggregate live hashtag screens onto physical conference displays to optimize community interaction loops.</p>
+    </div>
+</div>
+</section>
+
+<!-- Section 6: Onboarding + Founder Scarcity Engine -->
+<section class="form-section" id="demo">
+<div class="form-wrap">
+<!-- Founder Scarcity Banner Box Addon -->
+<div class="scarcity-banner">
+<div class="icon">✨</div>
+<div class="scarcity-text">
+<h4>Early Access Program (Capped Registration)</h4>
+<p>We are currently onboarding our first 10 businesses manually. Sign up today to get direct implementation support from the founder and lock in fixed founder pricing tiers before our public launch.</p>
+</div>
+</div>
+
+<h2 class="section-title" style="font-size:1.8rem; margin-bottom:8px">Book Your Early Access Demo</h2>
+<p class="section-sub" style="margin-bottom:32px">Secure your private system configurations and developer tokens.</p>
+
+<form id="demoForm">
+<input type="text" placeholder="Your Name" required>
+<input type="text" placeholder="Business Website Link">
+<input type="text" placeholder="Instagram Brand Handle">
+<input type="tel" placeholder="WhatsApp Number" required>
+<textarea rows="4" placeholder="Tell us about your technical stack layout (Shopify, WordPress, Webflow, Custom Stack...)"></textarea>
+<button type="submit" class="submit-btn">Request Founder Invitation</button>
+</form>
+</div>
+</section>
+
+<footer>
+© 2026 TrustFeed — Automated Social Proof Ecosystem. All Rights Reserved.
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+document.getElementById('navbar')
+.classList.toggle('scrolled',window.scrollY>50)
+})
+
+const slides=document.querySelectorAll('.slide');
+let current=0;
+setInterval(()=>{
+slides[current].classList.remove('active');
+current=(current+1)%slides.length;
+slides[current].classList.add('active');
+},4500);
+
+document.getElementById('demoForm').addEventListener('submit',e=>{
+e.preventDefault();
+alert('Thank you! Your validation request has been logged. Our system engineering team will reach out via your provided WhatsApp number shortly.');
+e.target.reset();
+});
+</script>
+
+</body>
+</html>
+
