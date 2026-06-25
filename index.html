@@ -829,6 +829,103 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
 
 
 
+
+
+
+/* ==========================================
+   HIGH-CONVERTING SUCCESS MODAL FRAMEWORK
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.success-modal-card {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 20px;
+    padding: 40px 32px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .success-modal-card {
+    transform: scale(1) translateY(0);
+}
+
+/* Celebrating Verification Spark Ring Vector */
+.success-icon-badge {
+    width: 64px;
+    height: 64px;
+    background: #f0fdf4;
+    color: #22c55e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border: 1px solid #b7eb8f;
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.04);
+}
+
+.success-icon-badge svg {
+    width: 32px;
+    height: 32px;
+}
+
+.success-modal-card h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #18181b;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.success-modal-card p {
+    font-size: 0.95rem;
+    color: #71717a;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.modal-close-btn {
+    width: 100%;
+    padding: 14px;
+    background: #111111;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: #27272a;
+}
+
+
+
+
 </style>
 </head>
 <body>
@@ -1243,6 +1340,38 @@ Stop letting potential buyers leave your checkout loops. Convert organic user in
 © 2026 TrustFeed — Automated Social Proof Ecosystem. All Rights Reserved.
 </footer>
 
+
+
+
+
+
+
+
+  <!-- Fully Automated Custom Success Engagement Modal Overlay Container -->
+<div class="modal-overlay" id="successModal">
+    <div class="success-modal-card">
+        <div class="success-icon-badge">
+            <!-- Smooth Clean Checkmark Vector Icon Asset -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </div>
+        
+        <h3>You're In! ✨</h3>
+        <p>Your technical stack layout parameters and verification handle configurations have been logged securely. Our core integration team will contact you via WhatsApp shortly to coordinate setup parameters.</p>
+        
+        <button class="modal-close-btn" id="closeModalBtn">Back to FeedFlow</button>
+    </div>
+</div>
+
+
+
+  
+
+
+
+
+  
 <script>
 window.addEventListener('scroll',()=>{
 document.getElementById('navbar')
@@ -1257,27 +1386,54 @@ current=(current+1)%slides.length;
 slides[current].classList.add('active');
 },4500);
 
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+// Target UI Success Modal elements
+const successModal = document.getElementById('successModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+// Click logic for closing the active validation window
+closeModalBtn.addEventListener('click', () => {
+    successModal.classList.remove('active');
+});
+
+// Close modal if user clicks anywhere outside on the blur background canvas overlay sheet
+successModal.addEventListener('click', (e) => {
+    if (e.target === successModal) {
+        successModal.classList.remove('active');
+    }
+});
+
 document.getElementById('demoForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const submitBtn = e.target.querySelector('.submit-btn');
     const originalBtnText = submitBtn.innerText;
     
-    // Visual feedback processing state
     submitBtn.innerText = 'Processing Request...';
     submitBtn.disabled = true;
 
-    // Gather data using specific structural mappings
+    const inputs = e.target.querySelectorAll('input');
     const formData = {
-        name: e.target.querySelector('input[placeholder="Your Name"]').value,
-        website: e.target.querySelector('input[placeholder="Business Website Link"]').value,
-        instagram: e.target.querySelector('input[placeholder="Instagram Brand Handle"]').value,
-        whatsapp: e.target.querySelector('input[placeholder="WhatsApp Number"]').value,
-        stack: e.target.querySelector('textarea[placeholder*="technical stack"]').value
+        name: inputs[0] ? inputs[0].value : '',
+        website: inputs[1] ? inputs[1].value : '',
+        instagram: inputs[2] ? inputs[2].value : '',
+        whatsapp: inputs[3] ? inputs[3].value : '',
+        stack: e.target.querySelector('textarea') ? e.target.querySelector('textarea').value : ''
     };
 
     try {
-        // Relative routing works flawlessly out of the box when deployed on Netlify
         const response = await fetch('/.netlify/functions/submit-demo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1285,11 +1441,12 @@ document.getElementById('demoForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            alert('Thank you! Your validation request has been securely logged. Our engineering team will reach out via WhatsApp shortly.');
+            // Trigger the clean UI pop-up canvas instead of a generic browser window alert box!
+            successModal.classList.add('active');
             e.target.reset();
         } else {
-            const errData = await response.json();
-            alert(`Submission error: ${errData.error || 'Please try again.'}`);
+            const errData = await response.text(); 
+            alert(`Submission error: ${errData}`);
         }
     } catch (err) {
         console.error('Network Error:', err);
