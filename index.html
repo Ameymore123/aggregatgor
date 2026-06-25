@@ -1257,10 +1257,47 @@ current=(current+1)%slides.length;
 slides[current].classList.add('active');
 },4500);
 
-document.getElementById('demoForm').addEventListener('submit',e=>{
-e.preventDefault();
-alert('Thank you! Your validation request has been logged. Our system engineering team will reach out via your provided WhatsApp number shortly.');
-e.target.reset();
+document.getElementById('demoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = e.target.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.innerText;
+    
+    // Visual feedback processing state
+    submitBtn.innerText = 'Processing Request...';
+    submitBtn.disabled = true;
+
+    // Gather data using specific structural mappings
+    const formData = {
+        name: e.target.querySelector('input[placeholder="Your Name"]').value,
+        website: e.target.querySelector('input[placeholder="Business Website Link"]').value,
+        instagram: e.target.querySelector('input[placeholder="Instagram Brand Handle"]').value,
+        whatsapp: e.target.querySelector('input[placeholder="WhatsApp Number"]').value,
+        stack: e.target.querySelector('textarea[placeholder*="technical stack"]').value
+    };
+
+    try {
+        // Relative routing works flawlessly out of the box when deployed on Netlify
+        const response = await fetch('/.netlify/functions/submit-demo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('Thank you! Your validation request has been securely logged. Our engineering team will reach out via WhatsApp shortly.');
+            e.target.reset();
+        } else {
+            const errData = await response.json();
+            alert(`Submission error: ${errData.error || 'Please try again.'}`);
+        }
+    } catch (err) {
+        console.error('Network Error:', err);
+        alert('Systems are currently scaling under load. Please check back shortly!');
+    } finally {
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+    }
 });
 </script>
 
