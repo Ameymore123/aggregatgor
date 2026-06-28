@@ -24,30 +24,31 @@ body {
   font-family: "Finlandica Text", sans-serif;
   background:#fff; color:#111; overflow-x:hidden;
   -webkit-text-size-adjust:100%;
+  width: 100%;
 }
-img { max-width:100%; display:block; }
+img { max-width:100%; height:auto; display:block; }
  
 /* ========== CSS CUSTOM PROPERTIES ========== */
 :root {
-  --section-pad-y: clamp(60px, 8vw, 100px);
-  --section-pad-x: clamp(20px, 6%, 80px);
+  --section-pad-y: clamp(50px, 7vw, 100px);
+  --section-pad-x: clamp(16px, 5%, 80px);
   --radius-card: 20px;
   --radius-pill: 999px;
 }
  
 /* ========== GLOBAL SECTION FRAMEWORK ========== */
-.light-section { padding: var(--section-pad-y) var(--section-pad-x); background:#fff; }
-.dark-section  { padding: var(--section-pad-y) var(--section-pad-x); background:#f6f8fb; }
+.light-section { padding: var(--section-pad-y) var(--section-pad-x); background:#fff; overflow: hidden; }
+.dark-section  { padding: var(--section-pad-y) var(--section-pad-x); background:#f6f8fb; overflow: hidden; }
 .section-title {
   font-size: clamp(1.6rem, 4vw, 2.8rem);
   text-align:center; font-weight:800;
   margin-bottom:14px; letter-spacing:-1px;
-  line-height:1.1;
+  line-height:1.15;
 }
 .section-sub {
   text-align:center; color:#666;
-  max-width:680px; margin:0 auto 40px;
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  max-width:680px; margin:0 auto clamp(24px, 4vw, 40px);
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   line-height:1.6;
 }
 
@@ -781,12 +782,14 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
 
 
 
+
+
 /* ===== TABLET: 601px – 820px ===== */
-@media (max-width: 820px) {
+@media (max-width: 860px) {
   .fail-split             { grid-template-columns: 1fr; gap: 36px; }
   .visual-split-container { grid-template-columns: 1fr; gap: 36px; }
   .mock-feed-preview      { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .chrome-address-bar     { width: 75%; }
+  .chrome-address-bar     { width: 90%; font-size: 20px;}
   .industry-grid          { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -795,7 +798,12 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
   /* Sandbox flow stacks vertically */
   .sandbox-flow  { flex-direction: column; align-items: center; }
   .sandbox-card  { max-width: 100%; width: 100%; min-width: unset; }
+  #sandbox-widget-heading { font-size: 1rem; margin-left: 30px; width: 300px;}
   .sandbox-arrow { transform: rotate(90deg); margin: 6px auto; }
+  .follow-button { margin-left: 20px !important; }
+  #post-dot-icon { display: none; }
+  #emptybox{ padding-bottom: 60px;}
+
 }
 
 /* ===== MOBILE: ≤ 600px ===== */
@@ -806,9 +814,15 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
   /* Industry grid single column */
   .industry-grid { grid-template-columns: 1fr; }
 
+.follow-button { margin-left: 20px !important; }
+  #post-dot-icon { display: none; }
+
   /* Browser mock address bar shrink */
-  .chrome-address-bar  { width: 70%; font-size: 0.6rem; }
+  #sandbox-widget-heading { font-size: 1rem; margin-left: 30px; width: 300px;}
+  .chrome-address-bar  { width: 75%; font-size: 0.5rem; }
   .browser-tab-title   { display: none; }
+  #emptybox{ padding-bottom: 60px;}
+
   .pane-status-badge   { font-size: 0.55rem; }
 
   /* Bullet desc smaller icon */
@@ -824,6 +838,7 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
   .slide     { transition: none; }
   .pulse-dot { animation: none; opacity: 0.8; }
 }
+
 
 
 
@@ -934,7 +949,7 @@ footer { padding:40px; text-align:center; background:#111; color:#fff; font-size
 <nav id="navbar">
 <div class="logo">Feedlabs</div>
 <div class="nav-links">
-<a href="#features">Features</a>
+<a href="##mock-demo">Features</a>
 <a href="#demo">Book Demo</a>
 <button class="nav-btn" onclick="document.getElementById('demo').scrollIntoView()">Book Demo</button>
 </div>
@@ -998,7 +1013,7 @@ Stop letting potential buyers leave your checkout loops. Convert organic user in
 
 <div class="sandbox-flow">
 <div class="sandbox-card">
-<h4 style="margin-left: -1.5px;"><i class="fa-solid fa-circle-user" style="color: rgb(228, 228, 228); font-size: 35px; margin-left: 2px;"></i> @customer_post <button style="margin-left: 55px; padding-left: 10px; padding-right: 10px; height: 25px; width: 70px; border-radius: 6px; border: none;">Follow</button> <i class="fa-solid fa-ellipsis-vertical" style="color: rgb(0, 0, 0); margin-left: 25px;"></i></h4>
+<h4 style="margin-left: -1.5px;"><i class="fa-solid fa-circle-user" style="color: rgb(228, 228, 228); font-size: 35px; margin-left: 2px;"></i> @customer_post <button class="follow-button" style="margin-left: 55px; padding-left: 10px; padding-right: 10px; height: 25px; width: 70px; border-radius: 6px; border: none;">Follow</button> <i id="post-dot-icon" class="fa-solid fa-ellipsis-vertical" style="color: rgb(0, 0, 0); margin-left: 25px;"></i></h4>
 <img class="sandbox-img" src="static/red dress.jpg" alt="Instagram Post Source">
 <p style="font-size:0.85rem; color:#666;"><i class="fa fa-heart" style="font-size:28px;color:red; margin-left: 5px;"></i> <i class="fa-regular fa-comment" style="color: rgb(0, 0, 0); font-size: 25px; margin-left: 12px; margin-bottom: 3px;"></i> <i class="fa-solid fa-retweet" style="color: rgb(0, 0, 0); rotate: 90deg; font-size: 25px; margin-left: 7px;"></i> <i class="material-icons" style="font-size:25px; rotate: -25deg; margin-left: 12px; color: #111111;">send</i> <br><br> "Obsessed with my new kicks! 🔥 #brandlaunch"</p>
 </div>
@@ -1020,7 +1035,7 @@ Stop letting potential buyers leave your checkout loops. Convert organic user in
 <div class="sandbox-arrow">➔</div>
 
 <div class="sandbox-card">
-<h4>🌐 Live Storefront Widget</h4>
+<h4 id="sandbox-widget-heading">🌐 Live Storefront Widget</h4>
 
 <div class="mock-window">
     <div class="window-header">
@@ -1094,7 +1109,7 @@ Stop letting potential buyers leave your checkout loops. Convert organic user in
                 <div class="mock-wire-title"></div>
                 <div class="mock-wire-text"></div>
                 
-                <div class="empty-state-box">
+                <div id="emptybox" class="empty-state-box">
                     <div class="warning-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
     <!-- Question mark core glyph remains centered -->
